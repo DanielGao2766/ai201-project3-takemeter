@@ -69,16 +69,18 @@ Decision rule: If a post cites a specific statistic to support a point or draw a
 
 ## Data Collection Plan
 
-I will collect examples from two sources: Reddit (r/NBA posts and top-level comments) and X (posts with the #NBA hashtag).
+I will collect examples from Bluesky using the public search API (`public.api.bsky.app`), which requires no authentication or API key. Reddit and X were originally planned but both block unauthenticated programmatic access.
 
-**Target volume**: 200 total examples, approximately 67 per label.
+**Target volume**: 300 total posts collected; label at least 50 per class after filtering.
 
-**Collection strategy**:
-- For `commentary`: Sort r/NBA by "hot" during active game days to find game recap posts and news threads. Search X for "signs," "trade," "injury report" to surface news-style posts.
-- For `hot_take`: Filter r/NBA by controversial or use the "Unpopular opinion" flair. Search X for "overrated," "should be," "is trash," "take the hot take."
-- For `analysis`: Search r/NBA for posts that include numbers or percentages. Use X searches like "per 36" or "true shooting" to find stat-heavy posts.
+**Collection strategy** (automated via `collect.py`):
+- For `commentary`: Queries like `#NBA game score`, `NBA trade signed`, `NBA injury report` — surface neutral event/news posts.
+- For `hot_take`: Queries like `NBA overrated`, `NBA unpopular take`, `NBA never wins` — surface opinion-forward posts.
+- For `analysis`: Queries like `NBA stats per game`, `NBA true shooting`, `NBA win shares` — surface stat-backed posts.
 
-**If a label is underrepresented**: If any label has fewer than 50 examples after the initial collection pass, run targeted keyword searches to find more. For `analysis`, search for posts containing "%" or specific stat terms. For `hot_take`, search for opinion-signal phrases. Do not relabel borderline posts just to hit a quota — adjust collection strategy instead.
+The script deduplicates by post text and shuffles the output before saving to `nba_posts.csv`. The `source` column records which query produced each post, which helps identify collection bias during annotation.
+
+**If a label is underrepresented**: If any label has fewer than 50 labelable examples after the annotation pass, add new search queries targeting that label's signal words (e.g., `"NBA advanced stats"` or `"NBA per 36"` for analysis) and re-run `collect.py`. Do not relabel borderline posts just to hit a quota.
 
 ---
 
