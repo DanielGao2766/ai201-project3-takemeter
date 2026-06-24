@@ -131,3 +131,19 @@ If I fall significantly behind on annotation, I may use Claude to pre-label a ba
 After generating predictions on the held-out test set, I will export the list of misclassified examples (predicted label, true label, post text) and feed them to Claude with this prompt: "Here are posts my classifier got wrong. Identify any patterns in what makes these hard — look at post length, presence of statistics, opinion-signal words, tone, and topic. Group them if you see clusters."
 
 I will then verify Claude's patterns manually by reading 5–10 examples from each cluster myself before accepting the pattern as real. Claude's groupings are hypotheses, not ground truth. The verified patterns will directly inform the analysis section of my evaluation writeup.
+
+
+## Baseline Output
+
+🎯 Baseline accuracy: 0.893  (evaluated on 75/75 parseable responses)
+
+Per-class metrics (baseline):
+              precision    recall  f1-score   support
+
+    analysis       1.00      0.83      0.91        18
+    hot_take       0.68      1.00      0.81        15
+  commentary       0.97      0.88      0.93        42
+
+    accuracy                           0.89        75
+   macro avg       0.89      0.90      0.88        75
+weighted avg       0.92      0.89      0.90        75
